@@ -1,2 +1,4 @@
-# Scripts, tips, and stuff that I developed for my own purposes.
+Stuff
+
+Scripts, tips, and stuff that I developed for my own purposes.
 
