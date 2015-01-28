@@ -1,4 +1,8 @@
 #!/bin/sh
+
+# I am working on a script that detects mount point space issues then takes action
+# Written by: Matt Trotter
+
 df -H | grep -vE '^Filesystem|tmpfs|cdrom' | awk '{ print $5 " " $1 }' | while read output;
 do
   echo $output
