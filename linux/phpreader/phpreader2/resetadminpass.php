@@ -1,12 +1,11 @@
 <?php
-// This script is a php script that can read any mysql statements into a database_name
-// written to read a file in the same root folder "setusername.sql" and reset all the usernames for admin accounts for mysql
-//Written by: Matthew Trotter -- 
+// This script is written to read the file setusername.sql and reset all the usernames for admin accounts for mysql
+//Written by: Matthew Trotter -- for any issues or concerns please write sudirlay@icloud.com
 
-$sqlFileToExecute = 'setusername.sql';
-$hostname = 'ip of database';
-$db_username = 'root';
-$db_password = 'password';
+$sqlFileToExecute = 'adminpass.sql';
+$hostname = 'dbip';
+$db_username = 'dbusername';
+$db_password = 'dbpass';
 $link = mysql_connect($hostname, $db_username, $db_password);
 
 
@@ -16,10 +15,10 @@ if (!$link) {
 }
 
 
-
-$database_name = 'nameofdb';
+ 
+$database_name = 'dbname';
 mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
-
+ 
 // read the sql file
 $f = fopen($sqlFileToExecute,"r+");
 $sqlFile = fread($f, filesize($sqlFileToExecute));
@@ -35,8 +34,17 @@ foreach ($sqlArray as $stmt) {
     }
   }
 }
-if ($sqlErrorCode == 0)
-{echo "Script is executed succesfully!";}
+if ($sqlErrorCode == 0) 
+{echo "Script is executed succesfully!";} 
 
 else {
 
+  echo "An error occured during installation!<br/>";
+  echo "Error code: $sqlErrorCode<br/>";
+  echo "Error text: $sqlErrorText<br/>";
+  echo "Statement:<br/> $sqlStmt<br/>";
+
+}
+
+
+?>

@@ -1,8 +1,7 @@
 #!/bin/bash
 
 # This script was written to consolidate doadmin password resets into a single function
-# Any questions or concerns please email mtrotter@dealeron.com
-
+# Any questions or concerns please email sudirlay@icloud.com
 clear
 
 echo "Greetings what blog ID number do you want to reset username/and password on?"
@@ -13,14 +12,14 @@ clear
 echo "Updating admin username to nologin for blog_id=$number"
 sleep 3
 
-echo "update "$number"_users set user_login='nologin' where user_nicename like '%admin' LIMIT 1;" > /usr/local/bin/setusername.sql
+echo "update "$number"_users set user_login='username' where user_nicename like '%matt' LIMIT 1;" > /usr/local/bin/setusername.sql
 sudo /usr/bin/php /usr/local/bin/step1.php
 clear
 
 
 echo "Updating login password for blog_id=$number"
 sleep 3
-echo "update "$number"_users set user_pass = MD5('D3al3r0n1') where user_login = 'nologin';" > /usr/local/bin/setpasswd.sql
+echo "update "$number"_users set user_pass = MD5('xxxx') where user_login = 'matt';" > /usr/local/bin/setpasswd.sql
 sudo /usr/bin/php /usr/local/bin/step2.php
 
 

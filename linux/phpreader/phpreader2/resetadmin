@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# This script was written to change site admin username and passwd for
+# any domain. For any questions and/or concerns please contact  sudirlay@icloud.com
+
+clear
+
+echo "Greetings what blog ID number do you want to reset doadmin username and password for:"
+read number
+
+
+
+clear
+echo "Updating doadmin username/password for blog_id=$number"
+sleep 2
+
+echo "update "$number"_users set user_login='username' where user_nicename like '%matt' LIMIT 1;" > /usr/local/bin/mtrotterscripts/.resetadminfolder/adminusername.sql
+sudo /usr/bin/php /usr/local/bin/mtrotterscripts/.resetadminfolder/resetadmin.php                   >> /dev/null 2>&1
+sleep 3
+clear
+
+
+
+
+echo "update "$number"_users set user_pass = MD5('pass') where user_login = 'username' LIMIT 1;" > /usr/local/bin/mtrotterscripts/.resetadminfolder/adminpass.sql
+sudo /usr/bin/php /usr/local/bin/mtrotterscripts/.resetadminfolder/resetadminpass.php  >> /dev/null 2>&1 
+echo "All done! exiting.."
+
+
