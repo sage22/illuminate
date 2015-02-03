@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Script written/developed by Matt Trotter mtrotter@dealeron.com
+# Script written/developed by Matt Trotter sudirlay@icloud.com
 
 clear
 
@@ -33,8 +33,8 @@ cat blog_ids.txt
 
 for i in  ${array[*]}
 do
-mv -fr /var/www/blogs/$i/wp-content/themes/dealerOnBoss-Responsive /var/www/blogs/$i/wp-content/themes/dealerOnBoss-Responsive.bckup
-mv -fr /var/www/blogs/$i/wp-content/themes/dealerOnSocialMedia /var/www/blogs/$i/wp-content/themes/dealerOnSocialMedia.bckup
+mv -fr /var/www/blogs/$i/wp-content/themes/xxx /var/www/blogs/$i/wp-content/themes/xxx
+mv -fr /var/www/blogs/$i/wp-content/themes/xxx /var/www/blogs/$i/wp-content/themes/xxx
 cp -fr /root/sidebarfix/* /var/www/blogs/$i/wp-content/themes/
 
 clear
@@ -192,8 +192,8 @@ for i in ${array[*]}
 do
 clear
 echo "Changing responsive header file"
-grep -rl header /var/www/blogs/$i/wp-content/themes/dealerOnBoss-Responsive/header.php | xargs sed -i 's/dealerOnBoss-Responsive/amsitest/'
-cd /var/www/blogs/$i/wp-content/themes/dealerOnBoss-Responsive/
+grep -rl header /var/www/blogs/$i/wp-content/themes/xxx | xargs sed -i 's/oldthing/newthing'
+cd /var/www/blogs/$i/wp-content/themes/xxx
 echo "blog_$i's new header file is:" >> header.log
 cat header.php >>header.log
 sleep 3

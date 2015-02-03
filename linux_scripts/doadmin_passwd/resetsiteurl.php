@@ -4,8 +4,8 @@
 
 $sqlFileToExecute = 'setsiteurl.sql';
 $hostname = 'localhost';
-$db_username = 'root';
-$db_password = 'D3@l3r0n!';
+$db_username = 'xxxx';
+$db_password = 'xxxx!';
 $link = mysql_connect($hostname, $db_username, $db_password);
 
 
