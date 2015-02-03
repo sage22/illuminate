@@ -1,0 +1,34 @@
+#!/bin/bash
+
+# This script was written to change site urls for
+# any domain. Script written/developed by: Matthew Trotter mtrotter@dealeron.com
+
+clear
+
+echo "Greetings what blog ID number do you want to fix auto-incr on?"
+read number
+
+
+
+clear
+echo "Updating auto_incr for blog_id=$number"
+sleep 2
+
+echo "ALTER TABLE "$number"_options CHANGE option_id option_id BIGINT( 20 ) UNSIGNED NOT NULL AUTO_INCREMENT;" > /usr/local/bin/mtrotterscripts/setsiteurl.sql
+sudo /usr/bin/php /usr/local/bin/mtrotterscripts/resetsiteurl.php                   >> /dev/null 2>&1
+sleep 3
+clear
+
+
+
+
+echo "All done! exiting.."
+
+
+
+
+
+
+
+
+
