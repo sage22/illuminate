@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # script written/developed by: Matthew Trotter sudirlay@icloud.com 
-# This is a script to clean and change doadmin username and passwords on any blog id specified.
+# This is a script to clean and change admin username and passwords on any blog id specified.
 # The joint efforts of payam and matt trotter have been consolidted into this one script
 # Simply enter the blog id and let it fire
 clear

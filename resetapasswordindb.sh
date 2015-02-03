@@ -1,6 +1,7 @@
 #!/bin/bash
 
-# This script was written to consolidate doadmin password resets into a single function
+
+# This script was written to consolidate username password resets into a single function
 # Any questions or concerns please email sudirlay@icloud.com
 clear
 
@@ -9,7 +10,7 @@ read number
 
 
 clear
-echo "Updating admin username to nologin for blog_id=$number"
+echo "Updating admin username to newusername for blog_id=$number"
 sleep 3
 
 echo "update "$number"_users set user_login='username' where user_nicename like '%matt' LIMIT 1;" > /usr/local/bin/setusername.sql

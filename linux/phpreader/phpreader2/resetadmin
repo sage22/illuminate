@@ -5,13 +5,13 @@
 
 clear
 
-echo "Greetings what blog ID number do you want to reset doadmin username and password for:"
+echo "Greetings what blog ID number do you want to reset admin username and password for:"
 read number
 
 
 
 clear
-echo "Updating doadmin username/password for blog_id=$number"
+echo "Updating username username/password for blog_id=$number"
 sleep 2
 
 echo "update "$number"_users set user_login='username' where user_nicename like '%matt' LIMIT 1;" > /usr/local/bin/mtrotterscripts/.resetadminfolder/adminusername.sql
