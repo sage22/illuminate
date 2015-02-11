@@ -1,5 +1,5 @@
 <?php
-//This is a secure/ smart way to protect the $ _GET input from malicious injections and NULL values while passing strings from sql to mysql 
+//This is a secure/ smart way to protect the $ _GET input from malicious injections and NULL values while passing strings via uri/and/or/url  from sql to mysql 
 //: Written by Matthew Trotter sudirlay@icloud.com
 
 
