@@ -1,0 +1,13 @@
+#!/bin/bash
+
+## date format ##
+
+NOW=$(date +"%Y-%m-%d")
+
+# $NOW becomes your variable for timestamp
+
+## smart backup method :-) Here you call tar from its binary location to tar whatever your file is and append a date at the end of the name, you can put all the files in the same folder, the will
+ look like a bunch of tar files with date stamps, best thing is you can read/open them when you need too!! ##=
+
+/bin/tar -cvf /location/to/your/file.txt > /location/to/where/you/want/to/put/your/file/filenamename.tar-$NOW
+
