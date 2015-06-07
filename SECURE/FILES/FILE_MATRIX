@@ -1,0 +1,22 @@
+aide.conf		/etc/aide.conf	
+audispd.conf.rh6	/etc/rsyslog.d/audispd.conf
+audispd.syslog.conf.rh6 /etc/audisp/plugins.d/syslog.conf
+auditd.conf.rh6		/etc/audit/auditd.conf 
+audit.rules.rh6		/etc/audit/audit.rules 
+etc_issue.rh6		/etc/issue 
+src{generic.rh6} dest{/etc/postfix/generic} post{/usr/sbin/postmap /etc/postfix/generic}
+hpsa_autoinstall	/etc/init.d/hpsa_autoinstall
+libuser.conf.rh6	/etc/libuser.conf
+login.defs.rh6		/etc/login.defs
+logrotate.d_syslog	/etc/logrotate.d/syslog
+logrotate.d_uvscan	/etc/logrotate.d/uvscan		perm{0644}
+logsec.conf		/etc/rsyslog.d/logsec.conf
+main.cf.rh6		/etc/postfix/main.cf
+# password-auth.rh6	/etc/pam.d/password-auth-local	perm{0444} post{ln -sf  /etc/pam.d/password-auth-local /etc/pam.d/password-auth}
+# system-auth.rh6	/etc/pam.d/system-auth-local	perm{0444} pre{expr $DF_OSVER '>=' 6} post{ln -sf /etc/pam.d/system-auth-local /etc/pam.d/system-auth} 
+rsyslog.conf.rh6	/etc/rsyslog.conf	perm{0444} post{/sbin/service rsyslog restart}
+selinux_config.rh6	/etc/selinux/config
+snmpd.no_ca.rh6 	/etc/snmp/snmpd.conf
+sshd_config.rh6		/etc/ssh/sshd_config
+ustsmvscmsm845.repo.rh6	/etc/yum.repos.d/ustsmvscmsm845.repo
+yum.conf.rh6		/etc/yum.conf

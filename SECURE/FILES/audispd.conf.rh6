@@ -1,0 +1,5 @@
+# All auditd messages going to log.sec, so no need to log them locally which fills up /var/log
+# Sending all logging to central log server in /etc/rsyslog.d/logsec.conf file
+# which is the intent of RHEL-06-000509
+local0.* /dev/null
+
