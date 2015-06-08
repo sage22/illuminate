@@ -1,0 +1,33 @@
+#!/bin/bash
+
+
+# This function pulls website headers
+function pullsiteheader() {
+echo $answer > /tmp/contents
+readarray -t array</tmp/contents
+for i in ${array[*]}
+do 
+echo "Pulling header for $i"
+curl -I $i
+echo "
+
+
+"
+rm -fr /tmp/contents
+done
+}
+
+# This function checks to see if a service is running
+
+function servicecheck() {
+check=$(netstat -tulpn | grep -c $serv)
+
+if [ "$check" == 0 ]
+then
+echo "Serving is not running"
+else
+echo "Service is up and running"
+fi
+}
+
+
