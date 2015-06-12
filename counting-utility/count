@@ -1,0 +1,35 @@
+#!/bin/bash
+# Script writen by Matthew  Trotter sudirlay@icloud.com
+# The purpose of this script is to count items in any directory immediately 
+
+n=$1
+
+if [ -z "$n" ]  
+then
+ls  > /tmp/arraytemp
+
+echo "Directory $dire has this many items inside the folder"
+cd /tmp
+wc -l arraytemp | grep -o [0-9]*
+ 
+
+# // cleaning up
+rm -fr /tmp/array
+
+else
+
+cd $1
+ls  > /tmp/arraytemp
+
+echo "Directory $dire has this many items inside the folder"
+cd /tmp
+wc -l arraytemp | grep -o [0-9]*
+ 
+
+# // cleaning up
+rm -fr /tmp/array
+
+
+fi
+
+

@@ -23,3 +23,6 @@ DEPENDENCIES
   em-http-request
   eventmachine
   trollop
+
+BUNDLED WITH
+   1.10.3

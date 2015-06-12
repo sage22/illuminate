@@ -1,0 +1,14 @@
+WRITTEN BY: MATTHEW TROTTER
+THIS UTILITY SHOULD BE INSTALLED BY MOVING THE FOLLOWING SCRIPT INTO THE LOCAL BIN FOLDER
+/usr/local/bin/count
+
+USE UTILITY EXMAPLE:
+If you wish to count humber of items in your current working directory simply type count for example:
+rootprmpt#> count
+
+If you wish to count number of files in another directory simeply type count and name of folder or path of directory for exmaple:
+rootprompt#> count </path/of/directory>
+
+UTILIY WILL IMMEDIATELY COUNT ALL ITEMS INSIDE OF A FOLDER AND RETURN THE NUMBER
+
+

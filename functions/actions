@@ -31,3 +31,26 @@ fi
 }
 
 
+
+function condition() {
+if (( "$times" > "6" ))
+then
+echo "Sorry too many times"
+
+else
+
+echo "This is sustantial"
+
+seq $times > /tmp/file
+
+readarray -t array< /tmp/file
+
+for i in ${array[*]}
+do
+ifconfig
+done
+rm -fr /tmp/file
+
+
+fi
+}

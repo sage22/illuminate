@@ -1,0 +1,18 @@
+#!/bin/bash
+source $PWD/actions
+clear
+
+
+echo "This is a program written by Matthew Trotter"
+echo "Designed to demonstrate the 'if-than-greater-than' construct condition"
+sleep 2
+clear
+
+
+echo "How many times do you wish to run ifconfig?"
+read times
+clear
+
+
+# Functions included to set a conditional parameter
+condition
