@@ -3,11 +3,11 @@ Important things.
 
 Setup SQUID SSL made simple ;-)
 <br />
-`mkdir /etc/squid/ssl`
+mkdir /etc/squid/ssl
 <br />
-'''cd /etc/squid/ssl/'''
+cd /etc/squid/ssl/
 <br />
-'''openssl genrsa -des3 -out squid.key 1024'''
+openssl genrsa -des3 -out squid.key 1024
 <br />
 openssl req -new -key squid.key -out squid.csr
 <br />
