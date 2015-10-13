@@ -3,7 +3,7 @@ Important things.
 
 Setup SQUID SSL made simple ;-)
 <br />
-'''mkdir /etc/squid/ssl'''
+```mkdir /etc/squid/ssl```
 <br />
 '''cd /etc/squid/ssl/'''
 <br />
