@@ -11,5 +11,6 @@ openssl rsa -in squid.key.org -out squid.key
 openssl x509 -req -days 365 -in squid.csr -signkey squid.key -out squid.crt
 
 FINALLY EDIT SQUID.CONF
+<br />
 http_port 3128 transparent
 https_port 3129 transparent key=/etc/squid/ssl/squid.key cert=/etc/squid/ssl/squid.crt
