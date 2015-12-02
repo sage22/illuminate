@@ -1,0 +1,127 @@
+
+{ 
+
+"AWSTemplateFormatVersion" : "2010-09-09",
+"Description" : "Create Management VPC",
+
+
+
+"Resources" : {
+"EC2Instance" : {
+"Type" : "AWS::EC2::Instance",
+"Properties" : {
+"AvailabilityZone" : "us-east-1b",
+"ImageId" : "ami-c51455a0",
+"SubnetId" : { "Ref" : "mgtpublic_subnet" },
+"InstanceType" : { "Ref" : "NAT_squid_proxy" },
+"SecurityGroups" : "sg_mgmt_public",
+"KeyName" : { "Ref" : "Golden" },
+  }
+},
+
+      
+
+
+    "EC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "AvailabilityZone" : "us-east",
+        "ImageId" : "ami-7797cb12",
+        "SubnetId" : { "Ref" : "mgtpublic_subnet" },
+        "InstanceType" : { "Ref" : "Bastion_Host" },
+        "SecurityGroups" : { "Fn::Join" : [ ",", [ "sg_mgmt_private", "sg_mgmt_public" ] ] },
+        "KeyName" : { "Ref" : "Golden" },
+        }
+    },
+
+
+
+    "EC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "AvailabilityZone" : "us-east",
+        "ImageId" : "ami-1f9fc37a",
+        "SubnetId" : { "Ref" : "mgtprivate_subnet" },
+        "InstanceType" : { "Ref" : "Puppet_Master" },
+        "SecurityGroups" : "sg_mgmt_private",
+        "KeyName" : { "Ref" : "Golden" },
+      }
+    },
+
+
+
+    "EC2Instance" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
+        "AvailabilityZone" : "us-east",
+        "ImageId" : "ami-7797cb12",
+        "SubnetId" : { "Ref" : "mgtprivate_subnet" },
+        "InstanceType" : { "Ref" : "Jenkins" },
+        "SecurityGroups" : "sg_mgmt_private",
+        "KeyName" : { "Ref" : "Golden" },
+      }
+    },
+
+
+
+
+
+
+  "Parameters" : {
+
+    "Golden": {
+      "Description" : "Golden Keypair",
+      "Type": "AWS::EC2::KeyPair::golden-ami-keypair",
+      "ConstraintDescription" : "golden-ami-keypair"
+    },
+
+
+     "mgtpublic_subnet" : { 
+       "Description" : "Public subnett for management VPC",
+         "Type" : "AWS::EC2::Instance", 
+           "SubnetId" : "10.1.65.0/25",
+          },
+           
+
+
+     "mgtprivate_subnet" : { 
+       "Description" : "Private subnett for management VPC",
+         "Type" : "AWS::EC2::Instance", 
+           "SubnetId" : "10.1.64.0/25",
+          },
+
+
+    "Puppet_Master" : {
+      "Description" : "Puppet Master",
+      "Type" : "AWS::EC2::Instance",
+      "Default" : "m4.xlarge",
+      "ConstraintDescription" : "m4.xlarge"
+      },
+
+
+
+    "NAT_squid_proxy" : {
+      "Description" : "Nat Squid Proxy",
+      "Type" : "AWS::EC2::Instance",
+      "Default" : "t2.micro",
+      "ConstraintDescription" : "t2.micro"
+      },
+
+
+ "Bastion_Host" : {
+      "Description" : "Bastion Host",
+      "Type" : "AWS::EC2::Instance",
+      "Default" : "t1.micro",
+      "ConstraintDescription" : "t1.micro"
+      },
+
+
+
+    "Jenkins" : {
+      "Description" : "Jenkins Server",
+      "Type" : "AWS::EC2::Instance",
+      "Default" : "m4.large",
+      "ConstraintDescription" : "m4.large"
+      },
+    }
+  }

@@ -1,0 +1,398 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Building web zone",
+	"Parameters": {
+		"osamiid": {
+			"Description": "AMI ID to launch the instance",
+			"Type": "AWS::EC2::Image::Id"
+		},
+		"ihsreleasezip": {
+			"Description": "release folder to launch the instance",
+			"Type": "String",
+			"MinLength": "1"
+		},
+		"releasenumber": {
+			"Description": "release folder to register the worker",
+			"Type": "String",
+			"MinLength": "1"
+		},
+		"ec2instancerole": {
+			"Description": "ec2 instance profile",
+			"Type": "String",
+			"MinLength": "1"
+		},
+		"instancetype": {
+			"Default": "m3.large",
+			"Description": "a valid ec2 instance type",
+			"Type": "String",
+			"AllowedValues": ["t2.micro",
+			"m3.large"]
+		},
+		"proxyserver": {
+			"Description": "outbound proxy server ip and port",
+			"Type": "String",
+			"MinLength": "1"
+		},
+		"keypair": {
+			"Default": "golden-ami-keypair",
+			"Description": "EC2 SSH keypair",
+			"Type": "AWS::EC2::KeyPair::KeyName"
+		},
+		"minihssize": {
+			"Default": "1",
+			"Description": "min - 1 and max - 1",
+			"Type": "Number",
+			"MinValue": "1",
+			"MaxValue": "1"
+		},
+		"maxihssize": {
+			"Default": "3",
+			"Description": "min - 3 and max - 3",
+			"Type": "Number",
+			"MinValue": "3",
+			"MaxValue": "3"
+		},
+		"subnetidAZ1": {
+			"Description": "subnet id for us-east-1b",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"subnetidAZ2": {
+			"Description": "subnet id for us-east-1c",
+			"Type": "AWS::EC2::Subnet::Id"
+		},
+		"securitygroupid": {
+			"Description": "subnet id for us-east region",
+			"Type": "AWS::EC2::SecurityGroup::Id"
+		},
+		"OperatorEMail": {
+			"Description": "EMail address to notify if there are any scaling operations",
+			"Type": "String",
+			"AllowedPattern": "([a-zA-Z0-9_\\-\\.]+)@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.)|(([a-zA-Z0-9\\-]+\\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\\]?)",
+			"ConstraintDescription": "must be a valid email address."
+		}
+	},
+	"Resources": {
+	"InstanceProfile" : {
+    "Type" : "AWS::IAM::InstanceProfile",
+    "Properties" : {
+      "Path" : "/",
+      "Roles" : [{
+		"Ref": "ec2instancerole"
+	  }]
+    }
+  },
+		"NotificationTopic": {
+			"Type": "AWS::SNS::Topic",
+			"Properties": {
+				"Subscription": [{
+					"Endpoint": {
+						"Ref": "OperatorEMail"
+					},
+					"Protocol": "email"
+				}]
+			}
+		},
+		"IHSWorkerGroup": {
+			"Type": "AWS::AutoScaling::AutoScalingGroup",
+			"Properties": {
+				"VPCZoneIdentifier": [{
+					"Ref": "subnetidAZ1"
+				},
+				{
+					"Ref": "subnetidAZ2"
+				}],
+				"Tags": [{
+					"Key": "Name",
+					"Value": {"Fn::Join": ["",
+					["ep-ihs-",
+					{
+						"Ref": "releasenumber"
+					}]]},
+					"PropagateAtLaunch": "true"
+				}],
+				"LaunchConfigurationName": {
+					"Ref": "LaunchConfig"
+				},
+				"MinSize": {
+					"Ref": "minihssize"
+				},
+				"MaxSize": {
+					"Ref": "maxihssize"
+				},
+				"NotificationConfiguration": {
+					"TopicARN": {
+						"Ref": "NotificationTopic"
+					},
+					"NotificationTypes": ["autoscaling:EC2_INSTANCE_LAUNCH",
+					"autoscaling:EC2_INSTANCE_LAUNCH_ERROR",
+					"autoscaling:EC2_INSTANCE_TERMINATE",
+					"autoscaling:EC2_INSTANCE_TERMINATE_ERROR"]
+				},
+				"TerminationPolicies": [ "NewestInstance" ]
+			},
+			"CreationPolicy": {
+				"ResourceSignal": {
+					"Timeout": "PT25M",
+					"Count": "1"
+				}
+			},
+			"UpdatePolicy": {
+				"AutoScalingRollingUpdate": {
+					"MinInstancesInService": "1",
+					"MaxBatchSize": "1",
+					"PauseTime": "PT5M",
+					"WaitOnResourceSignals": "true"
+				}
+			}
+		},
+		"LaunchConfig": {
+			"Type": "AWS::AutoScaling::LaunchConfiguration",
+			"Metadata": {
+				"Comment": "Launch ihs instances",
+			"AWS::CloudFormation::Authentication": {
+                "default" : {
+                    "type": "s3",
+                    "buckets": [ "csc-cms-sandbox" ],
+                    "roleName": [{
+		"Ref": "ec2instancerole"
+	  }]
+                }
+            },
+				"AWS::CloudFormation::Init": {
+					"configSets": {
+						"ihs_worker": ["config"]
+					},
+					"config": {
+						"commands": {
+							"01-create-directories": {
+								"command": "mkdir -p /opt/IBM"
+							},
+							"02-extract-zip": {
+								"env": {
+									"RELEASE": {
+										"Ref": "ihsreleasezip"
+									}
+								},
+								"command": "aws s3 cp s3://csc-cms-sandbox/portal-basedir/\"$RELEASE\" . && unzip \"$RELEASE\"",
+                                "cwd": "/opt/IBM/"
+                            },
+                            "03-change-dir-permissions": {
+                                "command": "chmod 755 -R /opt/"
+                            },
+							"04-download-base-plugin": {
+								"command": "aws s3 cp s3://csc-cms-sandbox/config-scripts/base-plugin-cfg.xml ./plugin-cfg.xml",
+								"cwd": "/opt/IBM/Plugins/config/webserver1"
+							},
+							"05-restart-ihs": {
+								"command": "./apachectl -k restart",
+								"cwd": "/opt/IBM/HTTPServer/bin"
+							}
+						},
+						"files": {
+							"/etc/cfn/cfn-hup.conf": {
+								"content": {
+									"Fn::Join": ["",
+									["[main]\n",
+									"stack=",
+									{
+										"Ref": "AWS::StackId"
+									},
+									"\n",
+									"region=",
+									{
+										"Ref": "AWS::Region"
+									},
+									"\n"]]
+								},
+								"mode": "000400",
+								"owner": "root",
+								"group": "root"
+							},
+							"/etc/cfn/hooks.d/cfn-auto-reloader.conf": {
+								"content": {
+									"Fn::Join": ["",
+									["[cfn-auto-reloader-hook]\n",
+									"triggers=post.update\n",
+									"path=Resources.LaunchConfig.Metadata.AWS::CloudFormation::Init\n",
+									"action=/usr/bin/cfn-init -v",
+						"         --stack ",
+						{
+							"Ref": "AWS::StackName"
+						},
+						" --resource LaunchConfig ",
+						"--configsets ihs_worker ",
+						"--https-proxy=",
+						{
+							"Ref": "proxyserver"
+						},
+						" --region ",
+						{
+							"Ref": "AWS::Region"
+						},
+									"\n",
+									"runas=root\n"]]
+								}
+							}
+						},
+						"services": {
+							"sysvinit": {
+								"cfn-hup": {
+									"enabled": "true",
+									"ensureRunning": "true",
+									"files": ["/etc/cfn/cfn-hup.conf",
+									"/etc/cfn/hooks.d/cfn-auto-reloader.conf"]
+								}
+							}
+						}
+					}
+				}
+			},
+			"Properties": {
+				"SecurityGroups": [{
+					"Ref": "securitygroupid"
+				}],
+				"InstanceType": {
+					"Ref": "instancetype"
+				},
+				"IamInstanceProfile" : {"Ref" : "InstanceProfile"},
+				"ImageId": {
+					"Ref": "osamiid"
+				},
+				"UserData": {
+					"Fn::Base64": {
+						"Fn::Join": ["",
+						["#!/bin/bash -ex",
+						"\n",						
+						"echo \"`curl http://169.254.169.254/latest/meta-data/local-ipv4` `hostname`\" >> /etc/hosts",
+						"\n",
+						"mkdir -p /etc/cfn/hooks.d/",
+						"\n",
+						"cp -r /opt/ /tmp/opt",
+						"\n",
+						"mkdir /mnt/opt && mount --bind /mnt/opt /opt && echo \"mount --bind /mnt/opt /opt\" >> /etc/rc.local",
+						"\n",
+						"cp -r /tmp/opt/aws/ /opt/ && rm -r /tmp/opt/",
+						"\n",
+						"mkdir -p /opt/reg_unreg/{log,plugin}",
+						"\n",
+						"cd /opt/reg_unreg && aws s3 cp s3://csc-cms-sandbox/config-scripts/plugind.sh . && chmod 755 -R /opt/reg_unreg && sed -i \"s/releasenumber/",
+						{
+							"Ref": "releasenumber"
+						},
+						"/g\" plugind.sh && nohup ./plugind.sh &",
+						"\n",
+						"/opt/aws/bin/cfn-init -v ",
+						"         --stack ",
+						{
+							"Ref": "AWS::StackName"
+						},
+						" --resource LaunchConfig ",
+						"--configsets ihs_worker ",
+						"--https-proxy=",
+						{
+							"Ref": "proxyserver"
+						},
+						" --region ",
+						{
+							"Ref": "AWS::Region"
+						},
+						" >> /var/log/cfn-init.log || error_exit 'Failed to run cfn-init'\n",
+						"/opt/aws/bin/cfn-signal -e $? ",
+						"         --stack ",
+						{
+							"Ref": "AWS::StackName"
+						},
+						" --resource IHSWorkerGroup ",
+						"--https-proxy=",
+						{
+							"Ref": "proxyserver"
+						},
+						" --region ",
+						{
+							"Ref": "AWS::Region"
+						},
+						"\n"]]
+							}
+						},
+						"BlockDeviceMappings": [{
+							"DeviceName": "/dev/sdf",
+							"VirtualName": "ephemeral0"
+						}],
+						"KeyName": {
+							"Ref": "keypair"
+						}
+					},
+					"CreationPolicy": {
+						"ResourceSignal": {
+							"Timeout": "PT20M"
+						}
+					}
+				},
+				"IHSScaleUpPolicy": {
+					"Type": "AWS::AutoScaling::ScalingPolicy",
+					"Properties": {
+						"AdjustmentType": "ChangeInCapacity",
+						"AutoScalingGroupName": {
+							"Ref": "IHSWorkerGroup"
+						},
+						"Cooldown": "900",
+						"ScalingAdjustment": "1"
+					}
+				},
+				"IHSScaleDownPolicy": {
+					"Type": "AWS::AutoScaling::ScalingPolicy",
+					"Properties": {
+						"AdjustmentType": "ChangeInCapacity",
+						"AutoScalingGroupName": {
+							"Ref": "IHSWorkerGroup"
+						},
+						"Cooldown": "900",
+						"ScalingAdjustment": "-1"
+					}
+				},
+				"CPUAlarmHigh": {
+					"Type": "AWS::CloudWatch::Alarm",
+					"Properties": {
+						"AlarmDescription": "Scale-up if CPU > 50% for 5 minutes",
+						"MetricName": "CPUUtilization",
+						"Namespace": "AWS/EC2",
+						"Statistic": "Average",
+						"Period": "300",
+						"EvaluationPeriods": "1",
+						"Threshold": "50",
+						"AlarmActions": [{
+							"Ref": "IHSScaleUpPolicy"
+						}],
+						"Dimensions": [{
+							"Name": "AutoScalingGroupName",
+							"Value": {
+								"Ref": "IHSWorkerGroup"
+							}
+						}],
+						"ComparisonOperator": "GreaterThanThreshold"
+					}
+				},
+				"CPUAlarmLow": {
+					"Type": "AWS::CloudWatch::Alarm",
+					"Properties": {
+						"AlarmDescription": "Scale-down if CPU < 20% for 5 minutes",
+						"MetricName": "CPUUtilization",
+						"Namespace": "AWS/EC2",
+						"Statistic": "Average",
+						"Period": "300",
+						"EvaluationPeriods": "1",
+						"Threshold": "20",
+						"AlarmActions": [{
+							"Ref": "IHSScaleDownPolicy"
+						}],
+						"Dimensions": [{
+							"Name": "AutoScalingGroupName",
+							"Value": {
+								"Ref": "IHSWorkerGroup"
+							}
+						}],
+						"ComparisonOperator": "LessThanThreshold"
+					}
+				}
+			}
+		}

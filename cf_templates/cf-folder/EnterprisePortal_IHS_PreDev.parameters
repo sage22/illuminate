@@ -1,0 +1,54 @@
+[
+  {
+    "ParameterKey": "osamiid",
+    "ParameterValue": "ami-5b71233e"
+  }, 
+  {
+    "ParameterKey": "proxyserver",
+    "ParameterValue": "MG-27-us-east-1b:3128"
+  },
+  {
+    "ParameterKey": "keypair",
+    "ParameterValue": "golden-ami-keypair"
+  },
+  {
+    "ParameterKey": "instancetype",
+    "ParameterValue": "m3.large"
+  },
+  {
+    "ParameterKey": "ihsreleasezip",
+    "ParameterValue": "RELEASE_PACKAGE"
+  },
+  {
+    "ParameterKey": "releasenumber",
+    "ParameterValue": "RELEASE_ID"
+  },
+  {
+    "ParameterKey": "ec2instancerole",
+    "ParameterValue": "ep_ec2instance_role"
+  },
+  {
+    "ParameterKey": "subnetidAZ1",
+    "ParameterValue": "subnet-30ddfa1b"
+  },
+  {
+    "ParameterKey": "subnetidAZ2",
+    "ParameterValue": "subnet-5a7f602d"
+  },
+  {
+    "ParameterKey": "securitygroupid",
+    "ParameterValue": "sg-8b7480ed"
+  },
+  {
+    "ParameterKey": "minihssize",
+    "ParameterValue": "1"
+  },
+  {
+    "ParameterKey": "maxihssize",
+    "ParameterValue": "3"
+  },
+  {
+    "ParameterKey": "OperatorEMail",
+    "ParameterValue": "sdaggupati@maricom.com"
+  }
+]

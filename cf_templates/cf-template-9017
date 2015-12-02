@@ -1,0 +1,32 @@
+{
+   "AWSTemplateFormatVersion": "2010-09-09",
+   "Resources": {
+       "ChildStack01": {
+           "Type": "AWS::CloudFormation::Stack",
+           "Properties": {
+               "TemplateURL": "https://s3.amazonaws.com/csc-cms-sandbox/cloudformation-templates/VPC_Single_Instance_In_Subnet.template",
+               "TimeoutInMinutes": "60"
+           }
+       },
+       "ChildStack02": {
+           "Type": "AWS::CloudFormation::Stack",
+           "Properties": {
+               "TemplateURL": "https://s3.amazonaws.com/csc-cms-sandbox/cloudformation-templates/squid_proxy.template",
+               "Parameters": {
+                  "VpcId" : { "Fn::GetAtt" : [ "ChildStack01", "Outputs.VpcID" ] },
+               },
+               "TimeoutInMinutes": "60"
+           }
+       }
+   },
+
+   
+   "Outputs": {
+       "StackRef": {
+           "Value": { "Ref": "ChildStack02" }
+       },
+       "OutputFromNestedStack": {
+           "Value": { "Fn::GetAtt": [ "ChildStack02", "Outputs.SubnetID" ]}
+       }
+   }
+}

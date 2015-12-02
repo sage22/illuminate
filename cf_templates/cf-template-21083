@@ -1,0 +1,332 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+
+
+	"Resources": {
+		"InstanceProfile": {
+			"Type": "AWS::IAM::InstanceProfile",
+			"Properties": {
+				"Path": "/",
+				"Roles": [
+					"ep_ec2instance_role"
+				]
+			}
+		},
+
+
+		"ExternalInterface": {
+			"Type": "AWS::EC2::NetworkInterface",
+			"Properties": {
+				"GroupSet" : ["pub-sec"],
+				"Description": "External Interface",
+				"SubnetId": "public_subnet"
+			}
+		},
+
+
+		"ExternalIPAddress": {
+			"Type": "AWS::EC2::EIP",
+			"Properties": {
+				"Domain": "vpc"
+			}
+		},
+		"ExternalIPAssociation": {
+			"Type": "AWS::EC2::EIPAssociation",
+			"Properties": {
+				"AllocationId": {
+					"Fn::GetAtt": [
+						"ExternalIPAddress",
+						"AllocationId"
+					]
+				},
+
+				"NetworkInterfaceId": {
+					"Ref": "ExternalInterface"
+				}
+			}
+		},
+
+
+		"Natproxy2016v100": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"SourceDestCheck" : "false",
+				"ImageId": "ami-nat",
+				"InstanceType": "t2.micro",
+				"KeyName": "golden-ami-keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Application",
+					"Value": "nat traffic and extended proxy"
+				}, {
+					"Key": "Name",
+					"Value": "nat server"
+				}, {
+					"Key": "Environment",
+					"Value": "predev"
+				}, {
+					"Key": "Owner",
+					"Value": "unix"
+				}, {
+					"Key": "Release",
+					"Value": "100"
+				}],
+
+				"NetworkInterfaces": [{
+					"Description": "Internal interface",
+					"DeviceIndex": 0,
+					"NetworkInterfaceId": {
+						"Ref": "ExternalInterface"
+					}
+				}]
+			}
+		},
+
+
+
+		"puppetmaster2016v100": {
+			"Type": "AWS::EC2::Instance",
+			"DependsOn": "Natproxy2016v100",
+			"Properties": {
+
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"EbsOptimized": "true",
+				"SecurityGroupIds": [
+					"pri-sec"
+				],
+				"SubnetId": "private_subnet",
+				"ImageId": "ami-pup",
+				"InstanceType": "m4.xlarge",
+				"KeyName": "golden-ami-keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Application",
+					"Value": "configuration management"
+				}, {
+					"Key": "Name",
+					"Value": "puppet server"
+				}, {
+					"Key": "Environment",
+					"Value": "predev"
+				}, {
+					"Key": "Owner",
+					"Value": "unix"
+				}, {
+					"Key": "Release",
+					"Value": "100"
+				}]
+			}
+		},
+		"git2016v100": {
+			"Type": "AWS::EC2::Instance",
+			"DependsOn": "puppetmaster2016v100",
+			"Properties": {
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"EbsOptimized": "true",
+				"SecurityGroupIds": [
+					"pri-sec"
+				],
+				"SubnetId": "private_subnet",
+				"ImageId": "ami-git",
+				"InstanceType": "m4.xlarge",
+				"KeyName": "golden-ami-keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Application",
+					"Value": "code repository"
+				}, {
+					"Key": "Name",
+					"Value": "git server"
+				}, {
+					"Key": "Environment",
+					"Value": "predev"
+				}, {
+					"Key": "Owner",
+					"Value": "unix"
+				}, {
+					"Key": "Release",
+					"Value": "100"
+				}]
+			}
+		},
+		"jenkins2016v100": {
+			"Type": "AWS::EC2::Instance",
+			"DependsOn": "puppetmaster2016v100",
+			"Properties": {
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"EbsOptimized": "true",
+				"SecurityGroupIds": [
+					"pri-sec"
+				],
+				"SubnetId": "private_subnet",
+				"ImageId": "ami-jen",
+				"InstanceType": "m4.large",
+				"KeyName": "golden-ami-keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Application",
+					"Value": "build server"
+				}, {
+					"Key": "Name",
+					"Value": "jenkins server"
+				}, {
+					"Key": "Environment",
+					"Value": "predev"
+				}, {
+					"Key": "Owner",
+					"Value": "unix"
+				}, {
+					"Key": "Release",
+					"Value": "100"
+				}]
+			}
+		},
+		"splunkmaster2016v100": {
+			"Type": "AWS::EC2::Instance",
+		    "DependsOn": "puppetmaster2016v100",
+			"Properties": {
+				"IamInstanceProfile": {
+					"Ref": "InstanceProfile"
+				},
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"EbsOptimized": "true",
+				"SecurityGroupIds": [
+					"pri-sec"
+				],
+				"SubnetId": "private_subnet",
+				"ImageId": "ami-spl",
+				"InstanceType": "m4.large",
+				"KeyName": "golden-ami-keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Appl",
+					"Value": "logging server"
+				}, {
+					"Key": "Name",
+					"Value": "splunk server"
+				}, {
+					"Key": "Environment",
+					"Value": "predev"
+				}, {
+					"Key": "Owner",
+					"Value": "unix"
+				}, {
+					"Key": "Release",
+					"Value": "100"
+				}]
+			}
+		}
+	},
+
+	"Outputs": {
+		"Natproxy2016v100": {
+			"Description": "Private IP Addresses assigned to Puppet Master Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"Natproxy2016v100",
+					"PublicIp"
+				]
+			}
+		},
+		"Natproxy2016v100az": {
+			"Description": "Availability Zone assigned to Puppet Master Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"Natproxy2016v100",
+					"AvailabilityZone"
+				]
+			}
+		},
+
+		"PuppetMaster": {
+			"Description": "Private IP Addresses assigned to Puppet Master Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"puppetmaster2016v100",
+					"PrivateIp"
+				]
+			}
+		},
+		"PuppetMasteraz": {
+			"Description": "Availability Zone assigned to Puppet Master Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"puppetmaster2016v100",
+					"AvailabilityZone"
+				]
+			}
+		},
+		"GitServer": {
+			"Description": "Private IP Addresses assigned to Git Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"git2016v100",
+					"PrivateIp"
+				]
+			}
+		},
+		"GitServeraz": {
+			"Description": "Availability Zone assigned to Git Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"git2016v100",
+					"AvailabilityZone"
+				]
+			}
+		},
+		"JenkinsServer": {
+			"Description": "Private IP Addresses assigned to Jenkins Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"jenkins2016v100",
+					"PrivateIp"
+				]
+			}
+		},
+		"JenkinsServeraz": {
+			"Description": "Availability Zone assigned to Jenkins Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"jenkins2016v100",
+					"AvailabilityZone"
+				]
+			}
+		},
+		"SplunkMasterServer": {
+			"Description": "Private IP Addresses assigned to Splunk Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"splunkmaster2016v100",
+					"PrivateIp"
+				]
+			}
+		},
+		"SplunkMasterServeraz": {
+			"Description": "Availability Zone assigned to Splunk Server",
+			"Value": {
+				"Fn::GetAtt": [
+					"splunkmaster2016v100",
+					"AvailabilityZone"
+				]
+			}
+		}
+	}
+}
