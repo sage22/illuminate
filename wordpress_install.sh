@@ -12,12 +12,7 @@ tar -zxvf latest.tar.gz
 /bin/rm latest.tar.gz
 
 mv wordpress /var/www/$host
-
-#mv /var/www/$host/wp-config-sample.php /var/www/$host/wp-config.php
-
-# sed -i 's/database_name_here/'$host'/g' /var/www/$host/wp-config.php
-# sed -i 's/username_here/db_user/g' /var/www/$host/wp-config.php 
-# sed -i 's/password_here/db_pass/g' /var/www/$host/wp-config.php
+sudo mv wp-config.php /var/www/$host
 
 echo "
 
