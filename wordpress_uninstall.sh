@@ -9,8 +9,8 @@ host=host_placeholder
 /bin/rm -fr /var/www/$host
 /bin/rm -fr /etc/httpd/sites-enabled/$host.conf
 
-/bin/cli53 rrdelete sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
-/bin/cli53 rrdelete sudirlaycoders.com $host A 52.2.96.172 --ttl 40
+/bin/cli53 rrdelete sudirlaycoders.com www.$host
+/bin/cli53 rrdelete sudirlaycoders.com $host
 
 #/bin/rm -fr /tmp/*
 
