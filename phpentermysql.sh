@@ -9,7 +9,7 @@ sqlFileToExecute = 'setusername.sql';
 hostname = 'hostip';
 db_username = 'root';
 db_pass = 'password';
-link = mysql_connect($hostname, $db_username, $db_password);
+link = mysql_connect($hostname, $db_username, $db_pass);
 
 
 
