@@ -14,8 +14,8 @@ tar -zxvf latest.tar.gz
 touch log.txt
 mv wordpress /var/www/$host -v  > log.txt
 echo /var/www/$host>>log.txt
-sudo cp -fr wp-config.php /var/www/$host -v >> log.txt
 
+sudo mv /tmp/wp-config.php /var/www/$host
 echo "
 
 <VirtualHost *:80>
