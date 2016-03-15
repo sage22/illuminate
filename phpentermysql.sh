@@ -1,15 +1,15 @@
 <?php
 // This script is a php script that can read any mysql statements into a database_name
 // written to read a file in the same root folder "setusername.sql" and reset all the usernames for admin accounts for mysql
-//Written by: Matthew Trotter -- 
+//Written by: Matthew Trotter --
 
 
-database_name = 'nameofdb';
-sqlFileToExecute = 'setusername.sql';
-hostname = 'hostip';
-db_username = 'root';
-db_pass = 'password';
-link = mysql_connect($hostname, $db_username, $db_pass);
+$database_name = 'db_name';
+$sqlFileToExecute = 'setusername.sql';
+$hostname = 'localhost';
+$db_username = 'root';
+$db_pass = 'password';
+$link = mysql_connect($hostname, $db_username, $db_pass);
 
 
 
@@ -18,6 +18,14 @@ if (!$link) {
 }
 
 
+
+
+$sql = 'CREATE DATABASE db_name';
+if (mysql_query($sql, $link)) {
+    echo "Database my_db created successfully\n";
+} else {
+    echo 'Error creating database: ' . mysql_error() . "\n";
+}
 
 
 mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
@@ -34,11 +42,7 @@ foreach ($sqlArray as $stmt) {
       $sqlErrorText = mysql_error();
       $sqlStmt = $stmt;
       break;
-    }
-  }
+      }
 }
-if ($sqlErrorCode == 0)
-{echo "Script is executed succesfully!";}
-
-else {
+}
 
