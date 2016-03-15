@@ -1,4 +1,6 @@
 #!/bin/bash
+# Written by: Sulayman Touray
+
 
 sudo /bin/php /tmp/phpentermysql.sh
 
