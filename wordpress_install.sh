@@ -11,8 +11,9 @@ tar -zxvf latest.tar.gz
 
 /bin/rm latest.tar.gz
 
-mv wordpress /var/www/$host
-mv wp-config.php /var/www/$host
+mv wordpress /var/www/$host -v >log.txt
+echo /var/www/$host>>log.txt
+/usr/bin/mv wp-config.php /var/www/$host -v >> log.txt
 
 echo "
 
