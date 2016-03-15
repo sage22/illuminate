@@ -1,6 +1,6 @@
 #!/bin/bash
 
-php phpentermysql.sh
+sudo /bin/php /tmp/phpentermysql.sh
 
 host=host_placeholder
 
