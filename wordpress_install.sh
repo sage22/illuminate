@@ -11,10 +11,7 @@ tar -zxvf latest.tar.gz
 
 /bin/rm latest.tar.gz
 
-touch log.txt
-mv wordpress /var/www/$host -v  > log.txt
-echo /var/www/$host>>log.txt
-
+mv wordpress /var/www/$host 
 sudo mv /tmp/wp-config.php /var/www/$host
 echo "
 
@@ -32,7 +29,8 @@ echo "
 /bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
 /bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
 
-#/bin/rm -fr /tmp/*
+/bin/rm -fr /tmp/*
 
 service httpd reload
+
 
