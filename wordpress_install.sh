@@ -12,7 +12,7 @@ tar -zxvf latest.tar.gz
 /bin/rm latest.tar.gz
 
 mv wordpress /var/www/$host
-sudo mv wp-config.php /var/www/$host
+mv wp-config.php /var/www/$host
 
 echo "
 
