@@ -2,7 +2,7 @@
 # Written by: Sulayman Touray
 
 
-sudo /bin/php /tmp/phpentermysql.sh
+sudo /bin/php /tmp/phpremovemysql.sh
 
 host=host_placeholder
 
