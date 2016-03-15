@@ -3,11 +3,13 @@
 // written to read a file in the same root folder "setusername.sql" and reset all the usernames for admin accounts for mysql
 //Written by: Matthew Trotter -- 
 
-$sqlFileToExecute = 'setusername.sql';
-$hostname = 'ip of database';
-$db_username = 'root';
-$db_password = 'password';
-$link = mysql_connect($hostname, $db_username, $db_password);
+
+database_name = 'nameofdb';
+sqlFileToExecute = 'setusername.sql';
+hostname = 'hostip';
+db_username = 'root';
+db_pass = 'password';
+link = mysql_connect($hostname, $db_username, $db_password);
 
 
 
@@ -17,7 +19,7 @@ if (!$link) {
 
 
 
-$database_name = 'nameofdb';
+
 mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
 
 // read the sql file
