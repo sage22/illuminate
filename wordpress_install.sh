@@ -29,7 +29,7 @@ echo "
 /bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
 /bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
 
-/bin/rm -fr /tmp/*
+#/bin/rm -fr /tmp/*
 
 service httpd reload
 
