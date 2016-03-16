@@ -19,19 +19,14 @@ if (!$link) {
 
 
 $sql = 'CREATE DATABASE db_name';
+$sql = 'grant all on db_name.* to sudiradmin identified by 'db_pass2';
 if (mysql_query($sql, $link)) {
     echo "Database my_db created successfully\n";
 } else {
     echo 'Error creating database: ' . mysql_error() . "\n";
 }
 
-$sql = 'grant all on db_name.* to sudiradmin identified by 'db_pass2';';
-if (mysql_query($sql, $link)) {
-    echo "Database my_db created successfully\n";
-} else {
-    echo 'Error creating database: ' . mysql_error() . "\n";
-}
-mysql_select_db($database_name, $link) or die ("Wrong MySQL Database");
+
 
 // read the sql file
 $f = fopen($sqlFileToExecute,"r+");
