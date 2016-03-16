@@ -19,7 +19,6 @@ if (!$link) {
 
 
 $sql = 'CREATE DATABASE db_name';
-$sql = 'grant all on db_name.* to sudiradmin identified by 'db_pass2';
 if (mysql_query($sql, $link)) {
     echo "Database my_db created successfully\n";
 } else {
