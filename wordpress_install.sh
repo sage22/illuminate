@@ -2,7 +2,7 @@
 # Written by: Sulayman Touray
 
 
-sudo /bin/php /tmp/phpentermysql.sh
+sudo /bin/php /tmp/phpentermysql.php
 
 host=host_placeholder
 
