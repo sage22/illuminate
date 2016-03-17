@@ -5,7 +5,7 @@
 
 
 $database_name = 'db_name';
-$sqlFileToExecute = 'setusername.sql';
+$sqlFileToExecute = '/tmp/setusername.sql';
 $hostname = 'localhost';
 $db_username = 'root';
 $db_pass = 'password';
