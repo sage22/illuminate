@@ -25,8 +25,6 @@ if (mysql_query($sql, $link)) {
     echo 'Error creating database: ' . mysql_error() . "\n";
 }
 
-$sql = 'grant all on db_name.* to sudiradmin identified by 'db_pass2';
-
 // read the sql file
 //$f = fopen($sqlFileToExecute,"r+");
 //$sqlFile = fread($f, filesize($sqlFileToExecute));
