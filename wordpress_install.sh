@@ -1,8 +1,7 @@
 #!/bin/bash
 # Written by: Sulayman Touray
 
-
-sudo /bin/php /tmp/phpentermysql.php
+/bin/php /tmp/phpentermysql.php
 
 host=host_placeholder
 
