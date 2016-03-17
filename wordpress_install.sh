@@ -1,9 +1,14 @@
 #!/bin/bash
 # Written by: Sulayman Touray
+host=host_placeholder
+sitecheck=`ls /var/www | grep -c $host`
+
+if [ "$sitecheck" == 0 ]
+then
 
 /bin/php /tmp/phpentermysql.php
 
-host=host_placeholder
+
 
 wget -c  wget https://wordpress.org/latest.tar.gz
 tar -zxvf latest.tar.gz
@@ -31,5 +36,12 @@ echo "
 #/bin/rm -fr /tmp/*
 
 service httpd reload
+
+else
+
+echo "ERROR - SITENAME ALREADY EXISTS, EXITING...."
+exit 0
+
+fi
 
 
