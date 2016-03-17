@@ -2,7 +2,7 @@
 # Written by: Sulayman Touray
 
 
-sudo /bin/php /tmp/phpremovemysql.php
+/bin/php /tmp/phpremovemysql.php
 
 host=host_placeholder
 
