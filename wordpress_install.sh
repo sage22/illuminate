@@ -17,6 +17,13 @@ tar -zxvf latest.tar.gz
 
 mv wordpress /var/www/$host 
 sudo mv /tmp/wp-config.php /var/www/$host
+chmod 777 -R /var/www/$host/wp-content/
+echo "
+define('FTP_USER', 'ftpuser');
+define('FTP_PASS', 'ftppass');
+define('FTP_HOST', 'localhost');" >> /var/www/$host/wp-config.php
+
+
 echo "
 
 <VirtualHost *:80>
