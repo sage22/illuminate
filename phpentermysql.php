@@ -17,6 +17,7 @@ if (!$link) {
   die ("MySQL Connection error");
 }
 
+
 // read the sql file
 $f = fopen($sqlFileToExecute,"r+");
 $sqlFile = fread($f, filesize($sqlFileToExecute));
@@ -26,10 +27,19 @@ foreach ($sqlArray as $stmt) {
     $result = mysql_query($stmt);
     if (!$result) {
       $sqlErrorCode = mysql_errno();
-     $sqlErrorText = mysql_error();
-     $sqlStmt = $stmt;
+      $sqlErrorText = mysql_error();
+      $sqlStmt = $stmt;
       break;
-      }
+    }
+  }
 }
+if ($sqlErrorCode == 0) {
+  echo "Script is executed succesfully!";
+} else {
+  echo "An error occured during installation!<br/>";
+  echo "Error code: $sqlErrorCode<br/>";
+  echo "Error text: $sqlErrorText<br/>";
+  echo "Statement:<br/> $sqlStmt<br/>";
 }
 
+?>
