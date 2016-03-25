@@ -43,7 +43,7 @@ echo "
 /bin/rm -fr /tmp/*
 /bin/rm -fr /var/www/$host/xmlrpc.php
 
-service httpd reload
+service httpd restart
 
 else
 
