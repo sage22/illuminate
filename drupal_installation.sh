@@ -8,13 +8,13 @@ then
 
 /bin/php /tmp/phpentermysql.php
 
-if [ "$theme" == site_theme ]
+if [ "$theme" == Default_latest ]
 then
 
-wget -c  wget http://ftp.drupal.org/files/projects/drupal-7.33.zip
-unzip drupal-7.33.zip
-/bin/rm drupal-7.33.zip
-mv drupal-7.33 /var/www/$host 
+wget -c  wget http://ftp.drupal.org/files/projects/drupal-7.43.zip
+unzip drupal-7.43.zip
+/bin/rm drupal-7.43.zip
+mv drupal-7.43 /var/www/$host 
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php 
