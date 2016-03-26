@@ -28,7 +28,6 @@ else
 mkdir -p /var/www/$host
 unzip /tmp/"$theme".zip -d /var/www/$host
 /bin/rm /tmp/"$theme".zip
-mv /tmp/$theme /var/www/$host
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
