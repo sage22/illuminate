@@ -21,6 +21,7 @@ chmod -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php 
 
+echo "
 
 <VirtualHost *:80>
         ServerName www.$host.sudirlaycoders.com
@@ -37,14 +38,13 @@ chmod 777 /var/www/$host/sites/default/settings.php
 /bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
 
 /bin/rm -fr /tmp/*
+/bin/rm -fr /var/www/$host/xmlrpc.php
 
 service httpd restart
 
-ielse
+else
 
 echo "ERROR - SITENAME ALREADY EXISTS, EXITING...."
 exit 0
 
 fi
-
-
