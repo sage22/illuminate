@@ -3,12 +3,17 @@
 host=host_placeholder
 sitecheck=`ls /var/www | grep -c $host`
 theme=site_theme
-if [ "$sitecheck" == 0 ]
+if [ "$sitecheck" == 1 ]
 then
+
+echo "ERROR - SITENAME ALREADY EXISTS, EXITING...."
+exit 0
+fi
 
 /bin/php /tmp/phpentermysql.php
 
 if [ "$theme" == Default_latest ]
+
 then
 
 wget -c  wget http://ftp.drupal.org/files/projects/drupal-7.43.zip
@@ -28,6 +33,9 @@ mv $theme /var/www/$host
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
+
+fi
+
 
 echo "
 
@@ -49,10 +57,4 @@ echo "
 
 service httpd restart
 
-else
 
-echo "ERROR - SITENAME ALREADY EXISTS, EXITING...."
-exit 0
-
-fi
-fi
