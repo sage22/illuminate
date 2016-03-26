@@ -26,9 +26,9 @@ chmod 777 /var/www/$host/sites/default/settings.php
 
 else
 
-unzip "$theme".zip
-/bin/rm "$theme".zip
-mv $theme /var/www/$host
+unzip /tmp/"$theme".zip
+/bin/rm /tmp/"$theme".zip
+mv /tmp/$theme /var/www/$host
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
