@@ -26,7 +26,6 @@ chmod 777 /var/www/$host/sites/default/settings.php
 
 else
 
-wget -c  wget http://ftp.drupal.org/files/projects/"$theme".zip
 unzip "$theme".zip
 /bin/rm "$theme".zip
 mv $theme /var/www/$host
