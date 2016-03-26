@@ -26,6 +26,7 @@ chmod 777 /var/www/$host/sites/default/settings.php
 
 else
 
+ls /tmp/* > log.txt
 unzip /tmp/"$theme".zip
 /bin/rm /tmp/"$theme".zip
 mv /tmp/$theme /var/www/$host
