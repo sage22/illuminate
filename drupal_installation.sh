@@ -6,41 +6,42 @@ sitecheck=`ls /var/www | grep -c $host`
 if [ "$sitecheck" == 0 ]
 then
 
-/bin/php /tmp/phpentermysql.php
+#/bin/php /tmp/phpentermysql.php
 
 
 
 wget -c  wget http://ftp.drupal.org/files/projects/drupal-7.33.zip
 tar -zxvf drupal-7.33.zip
-
+echo $PWD
+ls
 /bin/rm drupal-7.33.zip
 
+echo $PWD
+ls
 mv drupal-7.33 /var/www/$host 
-sudo mv /tmp/wp-config.php /var/www/$host
-chmod -R apache:apache /var/www/$host/
+chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php 
 
-echo "
+#echo "
 
-<VirtualHost *:80>
-        ServerName www.$host.sudirlaycoders.com
-        Serveralias $host.sudirlaycoders.com
-        DocumentRoot /var/www/$host/
-        <Directory /var/www/$host/>
-                Options FollowSymLinks
-                AllowOverride All
-                Order allow,deny
-                Allow from all
-        </Directory>
-</VirtualHost>" > /etc/httpd/sites-enabled/$host.conf
-/bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
-/bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
+#<VirtualHost *:80>
+#        ServerName www.$host.sudirlaycoders.com
+#        Serveralias $host.sudirlaycoders.com
+#        DocumentRoot /var/www/$host/
+#        <Directory /var/www/$host/>
+#                Options FollowSymLinks
+#                AllowOverride All
+#                Order allow,deny
+#                Allow from all
+#        </Directory>
+#</VirtualHost>" > /etc/httpd/sites-enabled/$host.conf
+#/bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
+#/bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
 
-/bin/rm -fr /tmp/*
-/bin/rm -fr /var/www/$host/xmlrpc.php
+#/bin/rm -fr /tmp/*
 
-service httpd restart
+#service httpd restart
 
 else
 
