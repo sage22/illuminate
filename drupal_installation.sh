@@ -24,8 +24,7 @@ chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php 
 
-elif
-if [ "$theme" == Corporatex ]
+elif [ "$theme" == Corporatex ]
 then
 
 mkdir -p /var/www/$host
@@ -35,9 +34,7 @@ chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
 
-elif 
-
-if [ "$theme" == BlueMasters ]
+elif [ "$theme" == BlueMasters ]
 then
 wget https://ftp.drupal.org/files/projects/bluemasters-7.x-2.1.zip
 unzip bluemasters-7.x-2.1.zip
