@@ -39,7 +39,7 @@ then
 wget https://ftp.drupal.org/files/projects/bluemasters-7.x-2.1.zip
 unzip bluemasters-7.x-2.1.zip
 /bin/rm bluemasters-7.x-2.1.zip
-mv bluemasters-7.x-2.1 /var/www/$host
+mv bluemasters /var/www/$host
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
