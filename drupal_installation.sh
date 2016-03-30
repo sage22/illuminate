@@ -16,7 +16,7 @@ if [ "$theme" == Default_latest ]
 
 then
 
-wget -c  wget http://ftp.drupal.org/files/projects/drupal-7.43.zip
+wget http://ftp.drupal.org/files/projects/drupal-7.43.zip
 unzip drupal-7.43.zip
 /bin/rm drupal-7.43.zip
 mv drupal-7.43 /var/www/$host 
@@ -24,10 +24,25 @@ chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php 
 
-else
+elif
+if [ "$theme" == Corporatex ]
+then
+
 mkdir -p /var/www/$host
 unzip /tmp/"$theme".zip -d /var/www/$host
 /bin/rm /tmp/"$theme".zip
+chown -R apache:apache /var/www/$host/
+cp -fr /tmp/settings.php /var/www/$host/sites/default/
+chmod 777 /var/www/$host/sites/default/settings.php
+
+elif 
+
+if [ "$theme" == BlueMasters ]
+then
+wget https://ftp.drupal.org/files/projects/bluemasters-7.x-2.1.zip
+unzip bluemasters-7.x-2.1.zip
+/bin/rm bluemasters-7.x-2.1.zip
+mv bluemasters-7.x-2.1 /var/www/$host
 chown -R apache:apache /var/www/$host/
 cp -fr /tmp/settings.php /var/www/$host/sites/default/
 chmod 777 /var/www/$host/sites/default/settings.php
