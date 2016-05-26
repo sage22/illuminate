@@ -37,8 +37,8 @@ echo "
                 Allow from all
         </Directory>
 </VirtualHost>" > /etc/httpd/sites-enabled/$host.conf
-/bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.2.96.172 --ttl 40
-/bin/cli53 rrcreate sudirlaycoders.com $host A 52.2.96.172 --ttl 40
+/bin/cli53 rrcreate sudirlaycoders.com www.$host A 52.203.246.218 --ttl 40
+/bin/cli53 rrcreate sudirlaycoders.com $host A 52.203.246.218 --ttl 40
 
 /bin/rm -fr /tmp/*
 /bin/rm -fr /var/www/$host/xmlrpc.php
