@@ -30,6 +30,7 @@
 					"Value": "releaseset"
 				}]
 			}
+}
 		},
 
 		"Outputs": {
@@ -53,4 +54,3 @@
 			}
 		}
 	}
-}
