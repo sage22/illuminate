@@ -7,7 +7,7 @@
 			"Properties": {
 				"DisableApiTermination": "false",
 				"InstanceInitiatedShutdownBehavior": "stop",
-				"EbsOptimized": "true",
+				"EbsOptimized": "false",
 				"SecurityGroupIds": [
 					"secset"
 				],
