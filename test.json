@@ -1,0 +1,56 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Resources": {
+
+		"testserver2016": {
+			"Type": "AWS::EC2::Instance",
+			"Properties": {
+				"DisableApiTermination": "false",
+				"InstanceInitiatedShutdownBehavior": "stop",
+				"EbsOptimized": "true",
+				"SecurityGroupIds": [
+					"secset"
+				],
+				"SubnetId": "subnetset",
+				"ImageId": "amiset",
+				"InstanceType": "ec2typeset",
+				"KeyName": "keypair",
+				"Monitoring": "false",
+				"Tags": [{
+					"Key": "Name",
+					"Value": "nameset"
+				}, {
+					"Key": "Environment",
+					"Value": "envset"
+				}, {
+					"Key": "Owner",
+					"Value": "ownerset"
+				}, {
+					"Key": "Release",
+					"Value": "releaseset"
+				}]
+			}
+		},
+
+		"Outputs": {
+			"Testserverip": {
+				"Description": "Private IP Addresses assigned to Test Server",
+				"Value": {
+					"Fn::GetAtt": [
+						"testserver2016",
+						"PrivateIp"
+					]
+				}
+			},
+			"Testserveraz": {
+				"Description": "Availability Zone assigned to Test Server",
+				"Value": {
+					"Fn::GetAtt": [
+						"testserver2016",
+						"AvailabilityZone"
+					]
+				}
+			}
+		}
+	}
+}
