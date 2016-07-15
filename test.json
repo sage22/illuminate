@@ -12,7 +12,7 @@
 					"secset"
 				],
 				"SubnetId": "subnetset",
-				"ImageId": "amiset",
+				"ImageId": "amid-set",
 				"InstanceType": "ec2typeset",
 				"KeyName": "keypair",
 				"Monitoring": "false",
