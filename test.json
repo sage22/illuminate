@@ -30,14 +30,6 @@
 					"Value": "releaseset"
 				}]
 			}
-},
-
-"snstopic2016":{
-  "Type" : "AWS::SNS::Topic",
-  "Properties" : {
-    "DisplayName" : "Im finished",
-    "TopicName" : "STATUS"
-  }
 }
 },
 
